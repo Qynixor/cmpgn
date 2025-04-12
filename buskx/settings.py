@@ -15,10 +15,13 @@ if env_file.exists():
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
-SECRET_KEY = env('SECRET_KEY', default='unsafe-secret-key')
-DEBUG = env.bool('DEBUG', default=True)
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['www.rallynex.com','localhost', '127.0.0.1','rallynex1.onrender.com',])
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('SECRET_KEY')
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv('DEBUG') == 'False'
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 
 # Application definitions
@@ -59,6 +62,9 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'buskx.middlewares.LegalLinksMiddleware',
+   
+
+
 ]
 
 ROOT_URLCONF = 'buskx.urls'
@@ -87,6 +93,7 @@ WSGI_APPLICATION = 'buskx.wsgi.application'
 # Database configuration
 DATABASES = {
     'default': env.db('DATABASE_URL'),
+    
 }
 
 CSRF_TRUSTED_ORIGINS = [
@@ -105,10 +112,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Localization settings
+
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
+
 USE_TZ = True
 
 # AWS S3 configurations for static and media files

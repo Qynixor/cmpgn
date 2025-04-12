@@ -24,6 +24,7 @@ from main.sitemaps import StaticViewSitemap, CampaignSitemap,ProfileSitemap
 from main import views as main_views
 from accounts import views as accounts_views
 from django.contrib.sitemaps.views import sitemap
+from django.conf.urls.i18n import i18n_patterns
 
 sitemaps = {
     'static': StaticViewSitemap,
@@ -54,4 +55,6 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-    
+urlpatterns += i18n_patterns(
+    # Add any views here that you want to have language support
+)
